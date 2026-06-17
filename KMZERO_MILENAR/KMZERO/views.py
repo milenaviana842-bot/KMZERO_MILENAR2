@@ -1,35 +1,82 @@
-from django.shortcuts import render
+from django.contrib.auth.models import User, Group
+from django.shortcuts import render, redirect
+from .models import Atleta
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+
+def listar(request):
+    return render(request, 'KMZERO/listar.html')
+
+def cadastro(request):
+    if request.method == 'POST':
+
+        nome = request.POST['nome']
+        email = request.POST['email']
+        senha = request.POST['senha']
+
+        cpf = request.POST['cpf']
+        telefone = request.POST['telefone']
+        endereco = request.POST['endereco']
+        cidade = request.POST['cidade']
+        uf = request.POST['uf']
+        cep = request.POST['cep']
+        data_nascimento = request.POST['datanascimento']
+        foto = request.FILES.get('foto')
+
+        user = User.objects.create_user(
+            username=email,
+            email=email,
+            password=senha,
+            first_name=nome
+        )
+
+        grupo = Group.objects.get(name='ATLETA')
+        user.groups.add(grupo)
+
+        Atleta.objects.create(
+            user=user,
+            cpf=cpf,
+            telefone=telefone,
+            endereco=endereco,
+            cidade=cidade,
+            uf=uf,
+            cep=cep,
+            data_nascimento=data_nascimento,
+            foto=foto
+        )
+
+        return redirect('KMZERO:login')
+
+    return render(request, 'KMZERO/cadastro.html')
+
 
 def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        senha = request.POST['senha']
+
+        user = authenticate(request, username=email, password=senha)
+
+        if user is not None:
+            login(request, user)
+            return redirect('KMZERO:home')
+        else:
+            return render(request, 'KMZERO/login.html', {
+                'erro': 'Login inválido'
+            })
+
     return render(request, 'KMZERO/login.html')
 
+
+@login_required
 def home(request):
     return render(request, 'KMZERO/home.html')
 
-def cadastro(request):
-    return render(request, 'KMZERO/cadastro.html')
-
-def eventocadastrar(request):
+def evento_cadastrar(request):
     return render(request, 'KMZERO/eventocadastrar.html')
 
 def eventolistar(request):
     return render(request, 'KMZERO/eventolistar.html')
 
 def listar(request):
-    atletas = [
-        {"id": 1, "nome": "Roberto Franco", "categoria": "Master", "evento": "Corrida do Sol"},
-        {"id": 2, "nome": "Ana Lima", "categoria": "Elite", "evento": "Maratona Amazônia"},
-        {"id": 3, "nome": "Carlos Silva", "categoria": "Iniciante", "evento": "Corrida Noturna"},
-        {"id": 4, "nome": "Juliana Souza", "categoria": "Elite", "evento": "Meia Maratona Belém"},
-        {"id": 5, "nome": "Marcos Oliveira", "categoria": "Master", "evento": "Corrida das Águas"},
-        {"id": 6, "nome": "Fernanda Costa", "categoria": "Iniciante", "evento": "Desafio Porto de Moz"},
-        {"id": 7, "nome": "Pedro Henrique", "categoria": "Elite", "evento": "Maratona Amazônia"},
-        {"id": 8, "nome": "Camila Rocha", "categoria": "Master", "evento": "Corrida do Sol"},
-        {"id": 9, "nome": "Lucas Almeida", "categoria": "Iniciante", "evento": "Corrida Noturna"},
-        {"id": 10, "nome": "Patrícia Gomes", "categoria": "Elite", "evento": "Meia Maratona Belém"},
-        {"id": 11, "nome": "Rafael Santos", "categoria": "Master", "evento": "Desafio Porto de Moz"},
-        {"id": 12, "nome": "Beatriz Martins", "categoria": "Iniciante", "evento": "Corrida das Águas"},
-        {"id": 13, "nome": "Gustavo Ribeiro", "categoria": "Elite", "evento": "Corrida do Sol"},
-    ]
-
-    return render(request, 'KMZERO/listar.html', {'atletas': atletas})
+    return render(request, 'KMZERO/listar.html')

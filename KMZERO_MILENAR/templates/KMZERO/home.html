@@ -1,21 +1,30 @@
 {% extends 'KMZERO/base.html' %}
-{% load static %}
-
-{% block title %}Home{% endblock %}
 
 {% block body %}
 
-<div class="text-center">
+<h2>Bem-vindo, {{ user.username }}</h2>
 
-    <img src="{% static 'img/evento.png' %}" class="img-fluid mt-3" style="max-width: 600px;">
-        </a>
+{% if user.groups.all.0.name == "ADM" %}
 
-    <div class="mt-4">
-    <a href="{% url 'KMZERO:login' %}" class="btn btn-primary">
-        Inscreva-se
-    </a>
-</div>
+    <div class="alert alert-primary">
+        <h3>Painel Administrador</h3>
 
-</div>
+        <a href="#">Cadastrar Atleta</a><br>
+        <a href="#">Criar Evento</a><br>
+        <a href="#">Ver Atletas</a><br>
+    </div>
+
+{% else %}
+
+    <div class="alert alert-success">
+        <h3>Painel Atleta</h3>
+
+        <a href="#">Listar Eventos</a><br>
+        <a href="#">Minhas Inscrições</a><br>
+        <a href="#">Se Inscrever</a><br>
+    </div>
+
+{% endif %}
+
 
 {% endblock %}
