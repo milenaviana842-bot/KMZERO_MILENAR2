@@ -1,0 +1,70 @@
+{% extends 'KMZERO/base.html' %}
+{% load static %}
+{% block title %}Lista de Atletas{% endblock %}
+{% block body %}
+
+<div class="container">
+    <h1>Atletas Cadastrados</h1>
+   <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item disabled">
+      <a class="page-link">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+       <form class="d-flex" role="search">
+        <input class="form-control me-2" type="Procurar" placeholder="Procurar" aria-label="Procurar"/>
+        <button class="btn btn-outline-success" type="submit">Procurar</button>
+      </form>
+  </ul>
+</nav>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Foto</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Evento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for atleta in atletas %}
+            <tr>
+                <th scope="row">{{ atleta.id }}</th>
+
+                <td>
+                    <img src="{% static 'img/perfil.png' %}" height="40px">
+                </td>
+
+                <td>{{ atleta.nome }}</td>
+
+                <td>{{ atleta.categoria }}</td>
+
+                <td>{{ atleta.evento }}</td>
+
+                <td>
+                    <button class="btn btn-warning">Editar</button>
+                    <button class="btn btn-danger">Excluir</button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">Nenhum atleta cadastrado</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

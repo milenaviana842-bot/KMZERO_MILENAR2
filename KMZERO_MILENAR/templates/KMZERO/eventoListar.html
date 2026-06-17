@@ -1,0 +1,39 @@
+{% extends 'KMZERO/base.html' %}
+{% load static %}
+
+{% block title %}Cadastro de Atletas{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome do Evento</th>
+            <th scope="col">Data</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Endereço</th>
+            <th scope="col">Bairro</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for evento in eventos %}
+        <tr>
+            <th scope="row">{{evento.id}}</th>
+            <td>{{evento.nome}}</td>
+            <td>{{evento.data}}</td>
+            <td>{{evento.hora}}</td>
+            <td>{{evento.endereço}}</td>
+            <td>{{evento.bairro}}</td>
+            <td>
+                <a href="{{evento.id}}"><img src="{% static 'img/editar.png' %}" height="30px"></a>
+                <a href="{{evento.id}}"><img src="{% static 'img/excluir.png' %}" height="30px"></a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

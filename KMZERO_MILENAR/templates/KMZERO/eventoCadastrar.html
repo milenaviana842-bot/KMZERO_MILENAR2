@@ -1,0 +1,52 @@
+{% extends 'KMZERO/base.html' %}
+{% load static %}
+
+{% block title %}Cadastro de Atletas{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+    <h1>Cadastro de Evento</h1>
+    <form class="row g-3" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="col-12">
+            <label for="nome" class="form-label">Nome do Evento</label>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="">
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+            <label class="form-check-label" for="checkDefault">
+                Masculino
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+            <label class="form-check-label" for="checkDefault">
+                Feminino
+            </label>
+        </div>
+        <div class="col-md-6">
+            <label for="data" class="form-label">Data</label>
+            <input type="Date" class="form-control" id="data" name="data">
+        </div>
+        <div class="col-md-6">
+            <label for="hora" class="form-label">Hora</label>
+            <input type="text" class="form-control" id="hora" name="hora">
+        </div>
+        <div class="col-8">
+            <label for="endereco" class="form-label">Endereço</label>
+            <input type="text" class="form-control" id="endereco" name="local" placeholder="Porto de Moz, Pará">
+        </div>
+        <div class="col-4">
+            <label for="bairro" class="form-label">Bairro</label>
+            <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Centro">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </div>
+    </form>
+</div>
+
+
+
+{% endblock %}
